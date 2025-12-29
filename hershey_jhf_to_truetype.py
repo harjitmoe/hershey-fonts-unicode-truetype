@@ -197,6 +197,8 @@ for fontname in fontnames:
         "Bold": 700,
         "BoldItalic": 700,
     }[variant]
+    friendlyvariant = camel_case_break.sub(lambda m: f"{m.group(1)} {m.group(2)}", variant)
+    friendlyname = "Hershey " + familyname + (f" {friendlyvariant}" if variant != "Regular" else "")
     glyphs = {}
     for fn in sorted(glob.glob(f"obj/{fontname}_*.svg")):
         with open(fn, "r", encoding="utf-8") as fd:
@@ -213,4 +215,4 @@ for fontname in fontnames:
         for ucs, glyph in sorted(glyphs.items()):
             print(glyph, file=fd)
         print("</font></defs></svg>", file=fd)
-    subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", "Open($1); SetFontNames('', '', '', '', $3); Generate($2)", f"obj/{fontname}.svg", f"dist/Hershey{fontname}.ttf", copying_notice])
+    subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", "Open($1); SetFontNames('', '', $3, '', $4); SetTTFName(0x409, 2, $5); Generate($2)", f"obj/{fontname}.svg", f"dist/Hershey{fontname}.ttf", friendlyname, copying_notice, friendlyvariant])

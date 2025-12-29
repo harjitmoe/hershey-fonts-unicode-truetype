@@ -179,6 +179,11 @@ for fn in glob.glob("hershey-fonts/hershey-fonts/*.jhf"):
 
 subprocess.call(["inkscape", "--actions", "select-all;object-stroke-to-path", "-l", "--export-overwrite", *fns])
 
+with open("hershey-fonts/hershey-fonts.notes", "r", encoding="utf-8") as fd:
+    b = fd.read()
+
+copying_notice = b.split("-" * 78, 2)[1].strip()
+
 camel_case_break = re.compile(r"([a-z])([A-Z])")
 fonts = {i for i, j in names.values()}
 
@@ -208,4 +213,4 @@ for fontname in fontnames:
         for ucs, glyph in sorted(glyphs.items()):
             print(glyph, file=fd)
         print("</font></defs></svg>", file=fd)
-    subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", "Open($1); Generate($2)", f"obj/{fontname}.svg", f"dist/Hershey{fontname}.ttf"])
+    subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", "Open($1); SetFontNames('', '', '', '', $3); Generate($2)", f"obj/{fontname}.svg", f"dist/Hershey{fontname}.ttf", copying_notice])

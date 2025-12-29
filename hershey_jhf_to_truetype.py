@@ -12,7 +12,7 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-SCALEFACTOR = 1000 / 80.0
+SCALEFACTOR = 1000 / 42.0
 
 for fn in glob.glob("hershey-fonts/*.jhf"):
     basename = os.path.splitext(os.path.basename(fn))[0]

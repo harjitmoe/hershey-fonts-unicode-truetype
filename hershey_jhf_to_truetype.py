@@ -208,4 +208,4 @@ for fontname in fontnames:
         for ucs, glyph in sorted(glyphs.items()):
             print(glyph, file=fd)
         print("</font></defs></svg>", file=fd)
-    subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", "Open($1); Generate($2)", f"obj/{fontname}.svg", f"dist/{fontname}.ttf"])
+    subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", "Open($1); Generate($2)", f"obj/{fontname}.svg", f"dist/Hershey{fontname}.ttf"])

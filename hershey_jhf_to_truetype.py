@@ -35,6 +35,7 @@ names = {
     "music": ("Serif-Regular", "hershey-musical"),
     "japanese": ("Serif-Regular", "hershey-japanese"),
     "astrology": ("Serif-Regular", "hershey-astrological"),
+    "symbolic": ("Serif-Regular", "hershey-symbolic"),
     "timesrb": ("Serif-Bold", "ir006"),
     "rowmant": ("Serif-Bold", "ir006/smart-quotes-up-arrow"),
     "timesi": ("Serif-Italic", "ir006"),
@@ -46,8 +47,8 @@ names = {
     "gothicita": ("GothicItalian-Regular", "ir006"),
     "gothitt": ("GothicItalian-Regular", "ir006/smart-quotes-up-arrow"),
     "cursive": ("Cursive-Regular", "ir006/smartquotes-hybrid"),
-    "scriptc": ("ScriptComplex-Regular", "ir006/smart-quotes-up-arrow"),
     "scripts": ("Cursive-Regular", "ir006/smart-quotes-up-arrow"),
+    "scriptc": ("CursiveComplex-Regular", "ir006/smart-quotes-up-arrow"),
 }
 
 gsets["hershey-japanese"] = (192, 1, (

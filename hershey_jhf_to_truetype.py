@@ -163,10 +163,13 @@ for fontname in fontnames:
         x, y, w, h = b.split("viewBox=\"", 1)[1].split("\"", 1)[0].split()
         ucs = fn.split("_", 2)[1]
         data = b.split("<path", 1)[1].split("d=\"", 1)[1].split("\"", 1)[0] if "<path" in b else ""
-        glyphs[ucs] = f"<glyph unicode='&#x{ucs};' horiz-adv-x='{w}' d='{data}'/>"
+        glyph = f"<glyph unicode='&#x{ucs};' horiz-adv-x='{w}' d='{data}'/>"
+        if glyphs.get(ucs, glyph) != glyph:
+            print(fn)
+        glyphs[ucs] = glyph
     with open(f"obj/{fontname}.svg", "w", encoding="utf-8") as fd:
         print(f"<svg xmlns=\"http://www.w3.org/2000/svg\"><defs><font id=\"Hershey{fontname}\"><font-face units-per-em=\"{round(42*SCALEFACTOR)}\" descent=\"{round(-11*SCALEFACTOR)}\" cap-height=\"{round(24*SCALEFACTOR)}\" x-height=\"{round(11*SCALEFACTOR)}\" font-family=\"Hershey {familyname}\" font-weight=\"{weight}\" font-style=\"{style}\"/>", file=fd)
         for ucs, glyph in sorted(glyphs.items()):
             print(glyph, file=fd)
         print("</font></defs></svg>", file=fd)
-    subprocess.call(["fontforge", "-lang=ff", "-c", "Open($1); Generate($2)", f"obj/{fontname}.svg", f"dist/{fontname}.ttf"])
+    subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", "Open($1); Generate($2)", f"obj/{fontname}.svg", f"dist/{fontname}.ttf"])

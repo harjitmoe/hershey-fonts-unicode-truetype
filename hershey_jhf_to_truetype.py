@@ -124,8 +124,12 @@ for fn in glob.glob("hershey-fonts/hershey-fonts/*.jhf"):
             ucs = 0xF020 + offset
         elif offset == 0:
             ucs = 0x0020
+        elif gsets[charset][2][offset - 1] is None:
+            ucs = 0xF020 + offset
+        elif gsets[charset][2][offset - 1][-1] in (0xF879, 0xF87F):
+            ucs = 0xF020 + offset
         else:
-            ucs = (gsets[charset][2][offset - 1] or (0xF020 + offset,))[0]
+            ucs = gsets[charset][2][offset - 1][0]
         if offset == 0 or path_data != ["M"]:
             fn = f"obj/{fontname}_{ucs:04X}_{basename}_{glyph_id:05d}.svg"
             with open(fn, "w", encoding="utf-8") as fd:

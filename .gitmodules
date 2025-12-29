@@ -1,3 +1,7 @@
 [submodule "hershey-fonts"]
 	path = hershey-fonts
 	url = https://github.com/kamalmostafa/hershey-fonts.git
+
+[submodule "ecma35lib"]
+	path = ecma35lib
+    url = https://gitlab.com/harjitmoe/ecma35lib.git

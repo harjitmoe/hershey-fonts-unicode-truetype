@@ -109,7 +109,7 @@ for fn in glob.glob("hershey-fonts/hershey-fonts/*.jhf"):
         viewbox_x1 = (ord(glyph_data[0]) - 33) * SCALEFACTOR
         viewbox_x2 = (ord(glyph_data[1]) - 33) * SCALEFACTOR
         viewbox_w = viewbox_x2 - viewbox_x1
-        for a, c in itertools.batched(glyph_data[2:], 2):
+        for a, c in itertools.islice(itertools.pairwise(glyph_data[2:]), 0, None, 2):
             x = ((ord(a) - 33) * SCALEFACTOR) - viewbox_x1
             y = (50 - (ord(c) - 33 - 9)) * SCALEFACTOR
             if ord(a) < 33:

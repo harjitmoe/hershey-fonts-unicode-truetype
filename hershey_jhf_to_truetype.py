@@ -235,5 +235,22 @@ for fontname in fontnames:
         for ucs, glyph in sorted(glyphs.items()):
             print(glyph, file=fd)
         print("</font></defs></svg>", file=fd)
+    print()
+    print(fontname)
     # Note that `UseTypoMetrics` seemingly cannot be set from FontForge's native script language
-    subprocess.call(["fontforge", "-quiet", "-lang=py", "-c", "f = open(argv[1]); f.fullname = argv[3]; f.copyright = argv[4]; f.appendSFNTName(0x409, 2, argv[5]); f.os2_use_typo_metrics = True; f.generate(argv[2])", f"obj/{fontname}.svg", f"dist/Hershey{fontname}.ttf", friendlyname, copying_notice, friendlyvariant])
+    subprocess.call(["fontforge", "-quiet", "-lang=py", "-c", """
+f = open(argv[1])
+f.fullname = argv[3]
+f.copyright = argv[4]
+f.appendSFNTName(0x409, 2, argv[5])
+f.os2_use_typo_metrics = True
+f.layers['Fore'].is_quadratic = True
+f.selection.all()
+f.addExtrema()
+f.correctDirection()
+f.canonicalStart()
+f.canonicalContours()
+f.autoHint()
+f.autoInstr()
+f.generate(argv[2])
+""", f"obj/{fontname}.svg", f"dist/Hershey{fontname}.ttf", friendlyname, copying_notice, friendlyvariant, repr(SCALEFACTOR)])

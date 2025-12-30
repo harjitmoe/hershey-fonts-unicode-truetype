@@ -108,7 +108,7 @@ overrides = {
     "greek": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x60: 0x02BB, 0x71: 0x03B8, 0x7F: 0x2588},
     "greekc": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x68: 0x03B8, 0x7F: 0x00B0},
     "greeks": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x68: 0x03B8, 0x7F: 0x00B0},
-    "markers": {0x49: 0xF049, 0x69: 0xF069},
+    "markers": {0x49: 0xFE69, 0x69: 0xFE69},
     "mathlow": {0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x7F: 0x007E},
     "mathupp": {0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x2C: 0x201A, 0x2E: 0x2024, 0x7B: 0x005D, 0x7D: 0x007B, 0x7F: 0x007E},
     "meteorology": {0x24: 0x25B4, 0x2A: 0x2217, 0x3F: 0x2753, 0x5F: 0xF05F, 0x7F: 0x007E},
@@ -117,8 +117,8 @@ overrides = {
     "rowmans": {0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x7F: 0x00B0},
     "rowmant": {0x23: 0xFE5F, 0x28: 0x2768, 0x29: 0x2769, 0x2D: 0x2212, 0x4A: 0xF04A, 0x5F: 0x02CD, 0x7F: 0x00B0},
     "scriptc": {0x7F: 0x00B0},
-    "scripts": {0x21: 0x2757, 0x22: 0x201D, 0x24: 0x1F4B2, 0x26: 0x1F675, 0x28: 0x2768, 0x29: 0x2769, 0x2C: 0x201A, 0x2E: 0x2024, 0x30: 0x1D7CE, 0x31: 0x1D7CF, 0x32: 0x1D7D0, 0x33: 0x1D7D1, 0x34: 0x1D7D2, 0x35: 0x1D7D3, 0x36: 0x1D7D4, 0x37: 0x1D7D5, 0x38: 0x1D7D6, 0x39: 0x1D7D7, 0x3A: 0xF03A, 0x3B: 0xF03B, 0x3F: 0x2753, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "symbolic": {0x4F: 0xF04F, 0x7F: 0x007E},
+    "scripts": {0x21: 0x2757, 0x22: 0x2033, 0x24: 0x1F4B2, 0x26: 0x1F675, 0x28: 0x2768, 0x29: 0x2769, 0x2C: 0x201A, 0x2E: 0x2024, 0x30: 0x1D7CE, 0x31: 0x1D7CF, 0x32: 0x1D7D0, 0x33: 0x1D7D1, 0x34: 0x1D7D2, 0x35: 0x1D7D3, 0x36: 0x1D7D4, 0x37: 0x1D7D5, 0x38: 0x1D7D6, 0x39: 0x1D7D7, 0x3A: 0xF03A, 0x3B: 0xF03B, 0x3F: 0x2753, 0x5F: 0x02CD, 0x7F: 0x00B0},
+    "symbolic": {0x4F: 0xFE69, 0x7F: 0x007E},
     "timesg": {0x22: 0x2033, 0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x71: 0x03B8, 0x7F: 0x2588},
     "timesi": {0x7F: 0x2588},
     "timesib": {0x7F: 0x2588},
@@ -140,21 +140,37 @@ for fn in glob.glob("hershey-fonts/hershey-fonts/*.jhf"):
         number_pairs, b = int(b[:3].lstrip(), 10), b[3:]
         glyph_data, b = b[:(number_pairs*2)], b[(number_pairs*2):]
         path_data = ["M"]
-        additional_scale = 16 / 23.0 if basename == "cyrillic" and offset == 67 else 1
-        additional_width = 2 if basename == "cyrillic" and offset == 67 else 0
-        additional_margin = 1 if basename == "cyrillic" and offset == 67 else 0
-        viewbox_x1 = (ord(glyph_data[0]) - 33) * SCALEFACTOR * additional_scale
-        viewbox_x2 = (ord(glyph_data[1]) - 33) * SCALEFACTOR * additional_scale
-        viewbox_w = (viewbox_x2 - viewbox_x1) + (additional_width * SCALEFACTOR)
+        additional_scale, additional_margin, additional_elevation = {
+            ("cyrillic", 67): (16 / 23.0, 1, 0.3),
+            ("symbolic", 81): (42 / 74.0, 0, 6),
+            ("symbolic", 82): (42 / 74.0, 0, 6),
+            ("symbolic", 83): (42 / 74.0, 0, 6),
+            ("symbolic", 84): (42 / 74.0, 0, 6),
+            ("symbolic", 85): (42 / 74.0, 0, 6),
+            ("mathlow", 81): (42 / 74.0, 0, 6),
+            ("mathlow", 82): (42 / 74.0, 0, 6),
+            ("mathlow", 83): (42 / 74.0, 0, 6),
+            ("mathlow", 84): (42 / 74.0, 0, 6),
+            ("mathlow", 85): (42 / 74.0, 0, 6),
+            ("mathupp", 81): (42 / 74.0, 0, 6),
+            ("mathupp", 82): (42 / 74.0, 0, 6),
+            ("mathupp", 83): (42 / 74.0, 0, 6),
+            ("mathupp", 84): (42 / 74.0, 0, 6),
+            ("mathupp", 85): (42 / 74.0, 0, 6),
+        }.get((basename, offset), (1, 0, 0))
+        def apply_scale(n, margin_factor, elevation_factor):
+            return ((n * additional_scale) + (additional_margin * margin_factor) +
+                    (additional_elevation * elevation_factor)) * SCALEFACTOR
+        viewbox_x1 = apply_scale(ord(glyph_data[0]) - 33, 0, 0)
+        viewbox_x2 = apply_scale(ord(glyph_data[1]) - 33, 2, 0)
+        viewbox_w = viewbox_x2 - viewbox_x1
         for a, c in itertools.islice(itertools.pairwise(glyph_data[2:]), 0, None, 2):
-            x = ((ord(a) - 33) * SCALEFACTOR * additional_scale) + (
-                    additional_margin * SCALEFACTOR) - viewbox_x1
-            y = (50 - (ord(c) - 33 - 9)) * SCALEFACTOR * additional_scale
+            x = apply_scale(ord(a) - 33, 1, 0) - viewbox_x1
+            y = apply_scale(50 - (ord(c) - 33 - 9), 0, 1)
             if ord(a) < 33:
                 path_data.append("M")
             else:
                 path_data.extend((str(x), str(y)))
-        width = viewbox_w * (1280 / 80) / (SCALEFACTOR * additional_scale)
         if (offset + 0x20) in overrides.setdefault(basename, {}):
             ucs = overrides[basename][offset + 0x20]
         elif charset is None:
@@ -174,7 +190,7 @@ for fn in glob.glob("hershey-fonts/hershey-fonts/*.jhf"):
         if offset == 0 or path_data != ["M"]:
             fn = f"obj/{fontname}_{ucs:04X}_{basename}_{glyph_id:05d}.svg"
             with open(fn, "w", encoding="utf-8") as fd:
-                print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}' width='{width}px' height='1280px'>", file=fd)
+                print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}'>", file=fd)
                 if path_data != ["M"]:
                     print(f"<path d='{' '.join(path_data)}' stroke='black' fill='none' stroke-width='{2*SCALEFACTOR}' stroke-linejoin='round' stroke-linecap='round'/>", file=fd)
                 print("</svg>", file=fd)

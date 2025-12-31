@@ -6,7 +6,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import sys, os, glob, itertools, subprocess, re
+import sys, os, glob, itertools, subprocess, re, pprint
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, "ecma35lib")))
 from ecma35.data.graphdata import gsets
 
@@ -271,6 +271,8 @@ for fn in [*glob.glob("complete-hershey-data/*.jhf"), *glob.glob("hershey-fonts/
 
 fontnames = set()
 
+glyph_id_to_unicode_and_fontname = {}
+
 for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete-hershey-data/*.jhf")]:
     basename = os.path.splitext(os.path.basename(fn))[0]
     is_japanese = basename in ("japanese", "oriental")
@@ -337,6 +339,9 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
             ucs = 0xF020 + offset
         else:
             ucs = gsets[charset][2][offset - 1][0]
+        if not (0xF000 <= ucs <= 0xF8FF):
+            glyph_id_to_unicode_and_fontname.setdefault((is_japanese, glyph_id), set()).add(
+                (f"U+{ucs:04X}", fontname))
         if offset == 0 or path_data != ["M"]:
             fn = f"obj/{fontname}_{ucs:04X}_{basename}_{glyph_id:05d}.svg"
             with open(fn, "w", encoding="utf-8") as fd:
@@ -347,6 +352,9 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
             fns.append(fn)
         offset += 1
         _last_glyph_id = glyph_id
+
+with open("dist/glyph_id_to_unicode.txt", "w", encoding="utf-8") as fd:
+    fd.write(pprint.pformat(glyph_id_to_unicode_and_fontname))
 
 subprocess.call(["inkscape", "--actions", "select-all;object-stroke-to-path", "-l", "--export-overwrite", *fns])
 

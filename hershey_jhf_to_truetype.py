@@ -180,21 +180,130 @@ adjustments = {
     ("mathupp", 85): (37 / 74.0, 0, 7.5),
 }
 
+def differentiate_latin_greek_cyrillic(glyph_id):
+    if 1 <= glyph_id <= 26:
+        return "L"
+    if 27 <= glyph_id <= 50:
+        return "G"
+    if 501 <= glyph_id <= 526:
+        return "L"
+    if 527 <= glyph_id <= 550:
+        return "G"
+    if 551 <= glyph_id <= 576:
+        return "L"
+    if 601 <= glyph_id <= 626:
+        return "L"
+    if 627 <= glyph_id <= 650:
+        return "G"
+    if 651 <= glyph_id <= 678:
+        return "L"
+    if 684 <= glyph_id <= 687:
+        return "G"
+    if 1001 <= glyph_id <= 1026:
+        return "L"
+    if 1027 <= glyph_id <= 1050:
+        return "G"
+    if 1051 <= glyph_id <= 1126:
+        return "L"
+    if 1127 <= glyph_id <= 1150:
+        return "G"
+    if 1151 <= glyph_id <= 1182:
+        return "L"
+    if 1184 <= glyph_id <= 1187:
+        return "G"
+    if 1191 <= glyph_id <= 1196:
+        return "L"
+    if 2001 <= glyph_id <= 2026:
+        return "L"
+    if 2027 <= glyph_id <= 2050:
+        return "G"
+    if 2051 <= glyph_id <= 2076:
+        return "L"
+    if 2101 <= glyph_id <= 2126:
+        return "L"
+    if 2127 <= glyph_id <= 2150:
+        return "G"
+    if 2151 <= glyph_id <= 2182:
+        return "L"
+    if 2184 <= glyph_id <= 2187:
+        return "G"
+    if 2190 <= glyph_id <= 2196:
+        return "L"
+    if 2501 <= glyph_id <= 2676:
+        return "L"
+    if 2801 <= glyph_id <= 2932:
+        return "C"
+    if 3001 <= glyph_id <= 3176:
+        return "L"
+    if 3301 <= glyph_id <= 3626:
+        return "L"
+    if 3801 <= glyph_id <= 3926:
+        return "L"
+    return None
+
+latin_greek_or_cyrillic = {
+    "cyrillic": "C",
+    "cyrilc_1": "C",
+    "greek": "G",
+    "greekc": "G",
+    "greeks": "G",
+    "timesg": "G"}
+
+id_to_glyph = {}
+glyph_to_id = {}
+erroneous_glyph_ids = set()
+
+for fn in [*glob.glob("complete-hershey-data/*.jhf"), *glob.glob("hershey-fonts/hershey-fonts/*.jhf")]:
+    basename = os.path.splitext(os.path.basename(fn))[0]
+    is_japanese = basename in ("japanese", "oriental")
+    with open(fn, "r", encoding="utf-8") as fd:
+        b = fd.read().rstrip("\x1A").replace("\n", "")
+    while b:
+        glyph_id, b = int(b[:5].lstrip(), 10), b[5:]
+        number_pairs, b = int(b[:3].lstrip(), 10), b[3:]
+        glyph_data, b = b[:(number_pairs*2)], b[(number_pairs*2):]
+        if glyph_id != 12345:
+            result = id_to_glyph.setdefault((is_japanese, glyph_id), glyph_data)
+            if result != glyph_data:
+                erroneous_glyph_ids.add((is_japanese, glyph_id))
+            else:
+                glyph_to_id.setdefault(glyph_data, set()).add((is_japanese, glyph_id))
+
 fontnames = set()
 
 for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete-hershey-data/*.jhf")]:
     basename = os.path.splitext(os.path.basename(fn))[0]
+    is_japanese = basename in ("japanese", "oriental")
+    lgc = latin_greek_or_cyrillic.get(basename, "L")
     fontname, charset = names.get(basename, (basename.title() + "-Regular", None))
     fontnames.add(fontname)
     with open(fn, "r", encoding="utf-8") as fd:
         b = fd.read().rstrip("\x1A").replace("\n", "")
     offset = 0
     _fontname = fontname
+    _last_glyph_id = -1
     while b:
         fontname = _fontname
         glyph_id, b = int(b[:5].lstrip(), 10), b[5:]
         number_pairs, b = int(b[:3].lstrip(), 10), b[3:]
         glyph_data, b = b[:(number_pairs*2)], b[(number_pairs*2):]
+        if (glyph_id == 12345 or (is_japanese, glyph_id) in erroneous_glyph_ids):
+            possibilities = glyph_to_id.get(glyph_data, set())
+            if len(possibilities) > 1:
+                if candidate := {i for i in possibilities if i[0] == is_japanese}:
+                    possibilities = candidate
+            if len(possibilities) > 1:
+                if candidate := {i for i in possibilities if differentiate_latin_greek_cyrillic(i[1]) == lgc}:
+                    possibilities = candidate
+            if len(possibilities) > 1:
+                if candidate := {i for i in possibilities if i[1] == (_last_glyph_id + 1)}:
+                    possibilities = candidate
+            if offset == 0 and glyph_data == "JZ":
+                glyph_id = 3199
+            elif possibilities:
+                glyph_id = min(possibilities)[1]
+            else:
+                glyph_id = 12345
         path_data = ["M"]
         additional_scale, additional_margin, additional_elevation = adjustments.get((basename, offset), (1, 0, 0))
         def apply_scale(n, margin_factor, elevation_factor):
@@ -237,6 +346,7 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
                 print("</svg>", file=fd)
             fns.append(fn)
         offset += 1
+        _last_glyph_id = glyph_id
 
 subprocess.call(["inkscape", "--actions", "select-all;object-stroke-to-path", "-l", "--export-overwrite", *fns])
 

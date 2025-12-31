@@ -51,6 +51,42 @@ names = {
     "scriptc": ("CursiveComplex-Regular", "ir006/smart-quotes-up-arrow"),
 }
 
+individual_offsets_to_unicode = {
+    ("occident", 239+3): ("Sans-Regular", 0x2113),
+    ("occident", 240+3): ("Sans-Regular", 0x2202),
+    ("occident", 241+3): ("Sans-Regular", 0x03F5),
+    ("occident", 242+3): ("Sans-Regular", 0x03B8),
+    ("occident", 243+3): ("Sans-Regular", 0x03D5),
+    ("occident", 244+3): ("Sans-Regular", 0x03C2),
+    ("occident", 261+6): ("Sans-Regular", 0x0027),
+    ("occident", 830+9): ("Serif-Regular", 0xFB00),
+    ("occident", 831+9): ("Serif-Regular", 0xFB01),
+    ("occident", 832+9): ("Serif-Regular", 0xFB02),
+    ("occident", 833+9): ("Serif-Regular", 0xFB03),
+    ("occident", 834+9): ("Serif-Regular", 0xFB04),
+    ("occident", 835+9): ("Serif-Regular", 0x0131),
+    ("occident", 836+9): ("Serif-Regular", 0x03F5),
+    ("occident", 837+9): ("Serif-Regular", 0x03B8),
+    ("occident", 838+9): ("Serif-Regular", 0x03D5),
+    ("occident", 942+12): ("Sans-Regular", 0x00A9),
+    ("occident", 943+12): ("Sans-Regular", 0x00AE),
+    ("occident", 952+12): ("Serif-Regular", 0x264E),
+    ("occident", 1227+18): ("Serif-Regular", 0x044D),
+    ("occident", 1446+24): ("GothicGerman-Regular", 0x0073),
+    ("occident", 1447+24): ("GothicGerman-Regular", 0x00DF),
+    ("occident", 1448+24): ("GothicGerman-Regular", 0xA729),
+    ("symbolic", 88): ("Serif-Italic", 0xFB00),
+    ("symbolic", 89): ("Serif-Italic", 0xFB01),
+    ("symbolic", 90): ("Serif-Italic", 0xFB02),
+    ("symbolic", 91): ("Serif-Italic", 0xFB03),
+    ("symbolic", 92): ("Serif-Italic", 0xFB04),
+    ("cyrillic", 67): ("Serif-Regular", 0x042D),
+    ("mathlow", 77): ("Serif-Regular", 0x2202),
+    ("mathupp", 77): ("Serif-Regular", 0x2202),
+}
+
+no_output = {"Occident-Regular", "Oriental-Regular"}
+
 gsets["hershey-japanese"] = (192, 1, (
                           (0xFF0E,), (0xFF0C,), (0x30FC,),
     (0x65E5,), (0x5186,), (0x5E74,), (0x5927,), (0x56FD,),
@@ -98,16 +134,16 @@ overrides = {
     "cyrilc_1": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x7F: 0x00B0},
     "cyrillic": {0x22: 0x2033, 0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x45: 0x0418, 0x7F: 0x007E},
     "gothgbt": {0x23: 0xFE5F, 0x2D: 0x2212, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "gothgrt": {0x23: 0xFE5F, 0x2D: 0x2212, 0x5F: 0x02CD, 0x7F: 0x00B0},
+    "gothgrt": {0x23: 0xFE5F, 0x2D: 0x2212, 0x5F: 0x02CD, 0x73: 0x017F, 0x7F: 0x00B0},
     "gothitt": {0x23: 0xFE5F, 0x2D: 0x2212, 0x5F: 0x02CD, 0x7F: 0x00B0},
     "gothiceng": {0x7F: 0x2588},
-    "gothicger": {0x7F: 0x2588},
+    "gothicger": {0x73: 0x017F, 0x7F: 0x2588},
     "gothicita": {0x7F: 0x2588},
     "futural": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x60: 0x02BB, 0x7F: 0x2588},
     "futuram": {0x7F: 0x2588},
-    "greek": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x60: 0x02BB, 0x71: 0x03B8, 0x7F: 0x2588},
-    "greekc": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x68: 0x03B8, 0x7F: 0x00B0},
-    "greeks": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x68: 0x03B8, 0x7F: 0x00B0},
+    "greek": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x60: 0x02BB, 0x7F: 0x2588},
+    "greekc": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x7F: 0x00B0},
+    "greeks": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x7F: 0x00B0},
     "markers": {0x49: 0xFE61, 0x69: 0xFE61},
     "mathlow": {0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x72: 0x27EE, 0x73: 0x27EF, 0x74: 0x2772, 0x75: 0x2773, 0x7F: 0x007E},
     "mathupp": {0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x2C: 0x201A, 0x2E: 0x2024, 0x72: 0x27EE, 0x73: 0x27EF, 0x74: 0x2772, 0x75: 0x2773, 0x7B: 0x005D, 0x7D: 0x007B, 0x7F: 0x007E},
@@ -119,45 +155,48 @@ overrides = {
     "scriptc": {0x7F: 0x00B0},
     "scripts": {0x21: 0x2757, 0x22: 0x2033, 0x24: 0x1F4B2, 0x26: 0x1F675, 0x28: 0x2768, 0x29: 0x2769, 0x2C: 0x201A, 0x2E: 0x2024, 0x30: 0x1D7CE, 0x31: 0x1D7CF, 0x32: 0x1D7D0, 0x33: 0x1D7D1, 0x34: 0x1D7D2, 0x35: 0x1D7D3, 0x36: 0x1D7D4, 0x37: 0x1D7D5, 0x38: 0x1D7D6, 0x39: 0x1D7D7, 0x3A: 0xF03A, 0x3B: 0xF03B, 0x3F: 0x2753, 0x5F: 0x02CD, 0x7F: 0x00B0},
     "symbolic": {0x34: 0x27EE, 0x35: 0x27EF, 0x4F: 0xFE61, 0x71: 0x2774, 0x72: 0x2775, 0x75: 0x23B7, 0x7F: 0x007E},
-    "timesg": {0x22: 0x2033, 0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x71: 0x03B8, 0x7F: 0x2588},
+    "timesg": {0x22: 0x2033, 0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x7F: 0x2588},
     "timesi": {0x7F: 0x2588},
     "timesib": {0x7F: 0x2588},
     "timesb": {0x7F: 0x2588},
     "timesr": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x7F: 0x2588},
 }
 
+adjustments = {
+    ("symbolic", 81): (37 / 74.0, 0, 7.5),
+    ("symbolic", 82): (37 / 74.0, 0, 7.5),
+    ("symbolic", 83): (42 / 74.0, 0, 6.5),
+    ("symbolic", 84): (42 / 74.0, 0, 6.5),
+    ("symbolic", 85): (36.5 / 74.0, 0, 4),
+    ("mathlow", 81): (37 / 74.0, 0, 7.5),
+    ("mathlow", 82): (37 / 74.0, 0, 7.5),
+    ("mathlow", 83): (37 / 74.0, 0, 7.5),
+    ("mathlow", 84): (37 / 74.0, 0, 7.5),
+    ("mathlow", 85): (37 / 74.0, 0, 7.5),
+    ("mathupp", 81): (37 / 74.0, 0, 7.5),
+    ("mathupp", 82): (37 / 74.0, 0, 7.5),
+    ("mathupp", 83): (37 / 74.0, 0, 7.5),
+    ("mathupp", 84): (37 / 74.0, 0, 7.5),
+    ("mathupp", 85): (37 / 74.0, 0, 7.5),
+}
+
 fontnames = set()
 
-for fn in glob.glob("hershey-fonts/hershey-fonts/*.jhf"):
+for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete-hershey-data/*.jhf")]:
     basename = os.path.splitext(os.path.basename(fn))[0]
     fontname, charset = names.get(basename, (basename.title() + "-Regular", None))
     fontnames.add(fontname)
     with open(fn, "r", encoding="utf-8") as fd:
         b = fd.read().rstrip("\x1A").replace("\n", "")
     offset = 0
+    _fontname = fontname
     while b:
+        fontname = _fontname
         glyph_id, b = int(b[:5].lstrip(), 10), b[5:]
         number_pairs, b = int(b[:3].lstrip(), 10), b[3:]
         glyph_data, b = b[:(number_pairs*2)], b[(number_pairs*2):]
         path_data = ["M"]
-        additional_scale, additional_margin, additional_elevation = {
-            ("cyrillic", 67): (2 / 3.0, 1, 0.3),
-            ("symbolic", 81): (37 / 74.0, 0, 7.5),
-            ("symbolic", 82): (37 / 74.0, 0, 7.5),
-            ("symbolic", 83): (42 / 74.0, 0, 6.5),
-            ("symbolic", 84): (42 / 74.0, 0, 6.5),
-            ("symbolic", 85): (36.5 / 74.0, 0, 4),
-            ("mathlow", 81): (37 / 74.0, 0, 7.5),
-            ("mathlow", 82): (37 / 74.0, 0, 7.5),
-            ("mathlow", 83): (37 / 74.0, 0, 7.5),
-            ("mathlow", 84): (37 / 74.0, 0, 7.5),
-            ("mathlow", 85): (37 / 74.0, 0, 7.5),
-            ("mathupp", 81): (37 / 74.0, 0, 7.5),
-            ("mathupp", 82): (37 / 74.0, 0, 7.5),
-            ("mathupp", 83): (37 / 74.0, 0, 7.5),
-            ("mathupp", 84): (37 / 74.0, 0, 7.5),
-            ("mathupp", 85): (37 / 74.0, 0, 7.5),
-        }.get((basename, offset), (1, 0, 0))
+        additional_scale, additional_margin, additional_elevation = adjustments.get((basename, offset), (1, 0, 0))
         def apply_scale(n, margin_factor, elevation_factor):
             return ((n * additional_scale) + (additional_margin * margin_factor) +
                     (additional_elevation * elevation_factor)) * SCALEFACTOR
@@ -171,7 +210,9 @@ for fn in glob.glob("hershey-fonts/hershey-fonts/*.jhf"):
                 path_data.append("M")
             else:
                 path_data.extend((str(x), str(y)))
-        if (offset + 0x20) in overrides.setdefault(basename, {}):
+        if override := individual_offsets_to_unicode.get((basename, offset), None):
+            fontname, ucs = override
+        elif (offset + 0x20) in overrides.setdefault(basename, {}):
             ucs = overrides[basename][offset + 0x20]
         elif charset is None:
             ucs = 0xF000 + offset
@@ -208,6 +249,8 @@ camel_case_break = re.compile(r"([a-z])([A-Z])")
 fonts = {i for i, j in names.values()}
 
 for fontname in fontnames:
+    if fontname in no_output:
+        continue
     familyname, variant = fontname.rsplit("-", 1)
     familyname = camel_case_break.sub(lambda m: f"{m.group(1)} {m.group(2)}", familyname)
     style = "italic" if variant in ("Italic", "BoldItalic") else "regular"

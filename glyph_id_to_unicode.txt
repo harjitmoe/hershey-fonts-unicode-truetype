@@ -480,7 +480,7 @@
  (False, 2214): ('U+0021', 'Serif-Regular'),
  (False, 2215): ('U+003F', 'Serif-Regular'),
  (False, 2216): ('U+0027', 'Serif-Regular'),
- (False, 2217): ('U+2033', 'Serif-Regular'),
+ (False, 2217): ('U+0022', 'Serif-Regular'),
  (False, 2218): ('U+00B0', 'Serif-Regular'),
  (False, 2219): ('U+002A', 'Serif-Regular'),
  (False, 2220): ('U+002F', 'Serif-Regular'),

@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- mode: python; coding: utf-8 -*-
-# By HarJIT in 2025.
+# By HarJIT in 2025, 2026.
 
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import sys, os, glob, itertools, subprocess, re, pprint, ast
+import sys, os, glob, itertools, subprocess, re, pprint, ast, shutil
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, "ecma35lib")))
 from ecma35.data.graphdata import gsets
 
@@ -368,6 +368,19 @@ copying_notice = b.split("-" * 78, 2)[1].strip()
 
 camel_case_break = re.compile(r"([a-z])([A-Z])")
 fonts = {i for i, j in names.values()}
+
+for fontname in fontnames:
+    if fontname in no_output:
+        continue
+    familyname, variant = fontname.rsplit("-", 1)
+    for ucs in range(0x20, 0x7F):
+        if not glob.glob(f"obj/{fontname}_{ucs:04X}_*.svg"):
+            if others := glob.glob(f"obj/Serif-{variant}_{ucs:04X}_*.svg"):
+                other = min(others)
+                shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
+            elif others := glob.glob(f"obj/Sans-{variant}_{ucs:04X}_*.svg"):
+                other = min(others)
+                shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
 
 for fontname in fontnames:
     if fontname in no_output:

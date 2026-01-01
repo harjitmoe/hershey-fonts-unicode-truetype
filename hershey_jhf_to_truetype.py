@@ -11,6 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, "ecma35lib")))
 from ecma35.data.graphdata import gsets
 
 os.makedirs("obj", exist_ok=True)
+os.makedirs("obj/glyph_id", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
@@ -350,13 +351,17 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
         if offset == 0 or path_data != ["M"]:
             effective_glyph_id = glyph_id if glyph_id != 12345 else (
                     20000 + (binascii.crc32(glyph_data.encode("utf-8")) & 0xFFFF))
-            fn = f"obj/{fontname}_{ucs:04X}_{is_japanese:01d}{effective_glyph_id:05d}.svg"
-            with open(fn, "w", encoding="utf-8") as fd:
-                print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}'>", file=fd)
-                if path_data != ["M"]:
-                    print(f"<path d='{' '.join(path_data)}' stroke='black' fill='none' stroke-width='{2*SCALEFACTOR}' stroke-linejoin='round' stroke-linecap='round'/>", file=fd)
-                print("</svg>", file=fd)
-            fns.append(fn)
+            filenames = [f"obj/glyph_id/{is_japanese:01d}{effective_glyph_id:05d}.svg"]
+            if fontname not in no_output:
+                fn = f"obj/{fontname}_{ucs:04X}_{is_japanese:01d}{effective_glyph_id:05d}.svg"
+                filenames.append(fn)
+                fns.append(fn)
+            for fn in filenames:
+                with open(fn, "w", encoding="utf-8") as fd:
+                    print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}'>", file=fd)
+                    if path_data != ["M"]:
+                        print(f"<path d='{' '.join(path_data)}' stroke='black' fill='none' stroke-width='{2*SCALEFACTOR}' stroke-linejoin='round' stroke-linecap='round'/>", file=fd)
+                    print("</svg>", file=fd)
         offset += 1
         _last_glyph_id = glyph_id
 

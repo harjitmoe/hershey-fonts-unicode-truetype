@@ -343,14 +343,13 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
             ucs = 0xF020 + offset
         else:
             ucs = gsets[charset][2][offset - 1][0]
+        effective_glyph_id = glyph_id if glyph_id != 12345 else (
+                20000 + (binascii.crc32(glyph_data.encode("utf-8")) & 0xFFFF))
         if not (0xF000 <= ucs <= 0xF8FF):
-            glyph_id_to_unicode_and_fontname.setdefault((is_japanese, glyph_id), set()).add(
-                (f"U+{ucs:04X}", fontname))
-        else:
-            glyph_id_to_unicode_and_fontname.setdefault((is_japanese, glyph_id), set())
+            glyph_id_to_unicode_and_fontname.setdefault((is_japanese, effective_glyph_id), set()
+                    ).add((f"U+{ucs:04X}", fontname))
         if offset == 0 or path_data != ["M"]:
-            effective_glyph_id = glyph_id if glyph_id != 12345 else (
-                    20000 + (binascii.crc32(glyph_data.encode("utf-8")) & 0xFFFF))
+            glyph_id_to_unicode_and_fontname.setdefault((is_japanese, effective_glyph_id), set())
             filenames = [f"obj/glyph_id/{is_japanese:01d}{effective_glyph_id:05d}.svg"]
             if fontname not in no_output:
                 fn = f"obj/{fontname}_{ucs:04X}_{is_japanese:01d}{effective_glyph_id:05d}.svg"
@@ -364,6 +363,13 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
                     print("</svg>", file=fd)
         offset += 1
         _last_glyph_id = glyph_id
+
+for i, j in [*glyph_id_to_unicode_and_fontname.items()]:
+    if (not j) and i in id_to_glyph:
+        reverse = glyph_to_id[id_to_glyph[i]]
+        for k in reverse:
+            if glyph_id_to_unicode_and_fontname[k] is not j:
+                j.update(glyph_id_to_unicode_and_fontname[k])
 
 with open("dist/glyph_id_to_unicode.txt", "w", encoding="utf-8") as fd:
     fd.write(pprint.pformat(glyph_id_to_unicode_and_fontname))

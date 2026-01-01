@@ -6,7 +6,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import sys, os, glob, itertools, subprocess, re, pprint, ast, shutil
+import sys, os, glob, itertools, subprocess, re, pprint, ast, shutil, binascii
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, "ecma35lib")))
 from ecma35.data.graphdata import gsets
 
@@ -345,8 +345,12 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
         if not (0xF000 <= ucs <= 0xF8FF):
             glyph_id_to_unicode_and_fontname.setdefault((is_japanese, glyph_id), set()).add(
                 (f"U+{ucs:04X}", fontname))
+        else:
+            glyph_id_to_unicode_and_fontname.setdefault((is_japanese, glyph_id), set())
         if offset == 0 or path_data != ["M"]:
-            fn = f"obj/{fontname}_{ucs:04X}_{basename}_{glyph_id:05d}.svg"
+            effective_glyph_id = glyph_id if glyph_id != 12345 else (
+                    20000 + (binascii.crc32(glyph_data.encode("utf-8")) & 0xFFFF))
+            fn = f"obj/{fontname}_{ucs:04X}_{is_japanese:01d}{effective_glyph_id:05d}.svg"
             with open(fn, "w", encoding="utf-8") as fd:
                 print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}'>", file=fd)
                 if path_data != ["M"]:

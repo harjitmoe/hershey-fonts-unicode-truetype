@@ -166,18 +166,7 @@ overrides = {
     "timesr": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x7F: 0x2588},
 }
 
-adjustments = {
-    2403: (37 / 74.0, 0, 7.5),
-    2404: (37 / 74.0, 0, 7.5),
-    2405: (37 / 74.0, 0, 7.5),
-    2406: (37 / 74.0, 0, 7.5),
-    2407: (37 / 74.0, 0, 7.5),
-    2408: (37 / 74.0, 0, 7.5),
-    2409: (42 / 74.0, 0, 6.5),
-    2410: (42 / 74.0, 0, 6.5),
-    2411: (36.5 / 74.0, 0, 4),
-    2412: (37 / 74.0, 0, 7.5),
-}
+adjustments = {}
 
 def differentiate_latin_greek_cyrillic(glyph_id):
     if 1 <= glyph_id <= 26:
@@ -323,6 +312,7 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
         if glyph_id != 12345 and (
                 value := input_glyph_id_to_unicode.get((is_japanese, glyph_id), None)):
             ucs = int(value[0].removeprefix("U+"), 16)
+            fontnames.add(value[1])
             if ucs > 0x0020:
                 fontname = value[1]
         elif override := individual_offsets_to_unicode.get((basename, offset), None):
@@ -385,7 +375,7 @@ camel_case_break = re.compile(r"([a-z])([A-Z])")
 fonts = {i for i, j in names.values()}
 
 for fontname in fontnames:
-    if fontname in no_output:
+    if fontname in no_output or "Mini" in fontname or "Giant" in fontname:
         continue
     familyname, variant = fontname.rsplit("-", 1)
     for ucs in range(0x20, 0x7F):

@@ -6,7 +6,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
-import sys, os, glob, itertools, subprocess, re, pprint
+import sys, os, glob, itertools, subprocess, re, pprint, ast
 sys.path.append(os.path.abspath(os.path.join(__file__, os.pardir, "ecma35lib")))
 from ecma35.data.graphdata import gsets
 
@@ -15,6 +15,9 @@ os.makedirs("dist", exist_ok=True)
 fns = []
 
 SCALEFACTOR = 1000 / 42.0
+
+with open("glyph_id_to_unicode.txt", "r", encoding="utf-8") as fd:
+    input_glyph_id_to_unicode = ast.literal_eval(fd.read())
 
 names = {
     "futural": ("Sans-Regular", "ir006/smartquotes"),
@@ -163,21 +166,16 @@ overrides = {
 }
 
 adjustments = {
-    ("symbolic", 81): (37 / 74.0, 0, 7.5),
-    ("symbolic", 82): (37 / 74.0, 0, 7.5),
-    ("symbolic", 83): (42 / 74.0, 0, 6.5),
-    ("symbolic", 84): (42 / 74.0, 0, 6.5),
-    ("symbolic", 85): (36.5 / 74.0, 0, 4),
-    ("mathlow", 81): (37 / 74.0, 0, 7.5),
-    ("mathlow", 82): (37 / 74.0, 0, 7.5),
-    ("mathlow", 83): (37 / 74.0, 0, 7.5),
-    ("mathlow", 84): (37 / 74.0, 0, 7.5),
-    ("mathlow", 85): (37 / 74.0, 0, 7.5),
-    ("mathupp", 81): (37 / 74.0, 0, 7.5),
-    ("mathupp", 82): (37 / 74.0, 0, 7.5),
-    ("mathupp", 83): (37 / 74.0, 0, 7.5),
-    ("mathupp", 84): (37 / 74.0, 0, 7.5),
-    ("mathupp", 85): (37 / 74.0, 0, 7.5),
+    2403: (37 / 74.0, 0, 7.5),
+    2404: (37 / 74.0, 0, 7.5),
+    2405: (37 / 74.0, 0, 7.5),
+    2406: (37 / 74.0, 0, 7.5),
+    2407: (37 / 74.0, 0, 7.5),
+    2408: (37 / 74.0, 0, 7.5),
+    2409: (42 / 74.0, 0, 6.5),
+    2410: (42 / 74.0, 0, 6.5),
+    2411: (36.5 / 74.0, 0, 4),
+    2412: (37 / 74.0, 0, 7.5),
 }
 
 def differentiate_latin_greek_cyrillic(glyph_id):
@@ -307,7 +305,7 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
             else:
                 glyph_id = 12345
         path_data = ["M"]
-        additional_scale, additional_margin, additional_elevation = adjustments.get((basename, offset), (1, 0, 0))
+        additional_scale, additional_margin, additional_elevation = adjustments.get(glyph_id, (1, 0, 0))
         def apply_scale(n, margin_factor, elevation_factor):
             return ((n * additional_scale) + (additional_margin * margin_factor) +
                     (additional_elevation * elevation_factor)) * SCALEFACTOR
@@ -321,7 +319,12 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
                 path_data.append("M")
             else:
                 path_data.extend((str(x), str(y)))
-        if override := individual_offsets_to_unicode.get((basename, offset), None):
+        if glyph_id != 12345 and (
+                value := input_glyph_id_to_unicode.get((is_japanese, glyph_id), None)):
+            ucs = int(value[0].removeprefix("U+"), 16)
+            if ucs > 0x0020:
+                fontname = value[1]
+        elif override := individual_offsets_to_unicode.get((basename, offset), None):
             fontname, ucs = override
         elif (offset + 0x20) in overrides.setdefault(basename, {}):
             ucs = overrides[basename][offset + 0x20]

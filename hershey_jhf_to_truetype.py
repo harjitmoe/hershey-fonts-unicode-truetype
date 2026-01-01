@@ -375,7 +375,11 @@ for fontname in fontnames:
     familyname, variant = fontname.rsplit("-", 1)
     for ucs in range(0x20, 0x7F):
         if not glob.glob(f"obj/{fontname}_{ucs:04X}_*.svg"):
-            if others := glob.glob(f"obj/Serif-{variant}_{ucs:04X}_*.svg"):
+            if "Gothic" in fontname and (
+                    others := glob.glob(f"obj/GothicEnglish-{variant}_{ucs:04X}_*.svg")):
+                other = min(others)
+                shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
+            elif others := glob.glob(f"obj/Serif-{variant}_{ucs:04X}_*.svg"):
                 other = min(others)
                 shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
             elif others := glob.glob(f"obj/Sans-{variant}_{ucs:04X}_*.svg"):

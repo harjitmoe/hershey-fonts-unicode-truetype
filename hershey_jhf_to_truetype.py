@@ -278,6 +278,7 @@ for fontname in fontnames:
                 other = min(others)
                 shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
 
+truetype_filenames = []
 for fontname in fontnames:
     if fontname in no_output:
         continue
@@ -310,6 +311,8 @@ for fontname in fontnames:
         print("</font></defs></svg>", file=fd)
     print()
     print(fontname)
+    fn = f"obj/Hershey{fontname}.ttf"
+    truetype_filenames.append(fn)
     # Note that `UseTypoMetrics` seemingly cannot be set from FontForge's native script language
     subprocess.call(["fontforge", "-quiet", "-lang=py", "-c", """
 f = open(argv[1])
@@ -326,4 +329,9 @@ f.canonicalContours()
 f.autoHint()
 f.autoInstr()
 f.generate(argv[2])
-""", f"obj/{fontname}.svg", f"dist/Hershey{fontname}.ttf", friendlyname, copying_notice, friendlyvariant, repr(SCALEFACTOR)])
+""", f"obj/{fontname}.svg", fn, friendlyname, copying_notice, friendlyvariant, repr(SCALEFACTOR)])
+
+subprocess.call(["fontforge", "-quiet", "-lang=py", "-c", """
+all_fonts = [open(i) for i in argv[2:]]
+all_fonts[0].generateTtc(argv[1], all_fonts[1:], ttcflags=('merge',), layer='Fore')
+""", "dist/Hershey.ttc", *sorted(truetype_filenames)])

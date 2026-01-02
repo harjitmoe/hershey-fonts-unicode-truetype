@@ -37,7 +37,6 @@ names = {
     "cyrillic": ("Serif-Regular", "hershey-cyrillic"),
     "cyrilc_1": ("Serif-Regular", "hershey-cyrillic-alternate"),
     "music": ("Serif-Regular", "hershey-musical"),
-    "japanese": ("Serif-Regular", "hershey-japanese"),
     "astrology": ("Serif-Regular", "hershey-astrological"),
     "symbolic": ("Serif-Regular", "hershey-symbolic"),
     "timesrb": ("Serif-Bold", "ir006"),
@@ -53,117 +52,6 @@ names = {
     "cursive": ("Cursive-Regular", "ir006/smartquotes-hybrid"),
     "scripts": ("Cursive-Regular", "ir006/smart-quotes-up-arrow"),
     "scriptc": ("CursiveComplex-Regular", "ir006/smart-quotes-up-arrow"),
-}
-
-individual_offsets_to_unicode = {
-    ("occident", 239+3): ("Sans-Regular", 0x2113),
-    ("occident", 240+3): ("Sans-Regular", 0x2202),
-    ("occident", 241+3): ("Sans-Regular", 0x03F5),
-    ("occident", 242+3): ("Sans-Regular", 0x03B8),
-    ("occident", 243+3): ("Sans-Regular", 0x03D5),
-    ("occident", 244+3): ("Sans-Regular", 0x03C2),
-    ("occident", 261+6): ("Sans-Regular", 0x0027),
-    ("occident", 830+9): ("Serif-Regular", 0xFB00),
-    ("occident", 831+9): ("Serif-Regular", 0xFB01),
-    ("occident", 832+9): ("Serif-Regular", 0xFB02),
-    ("occident", 833+9): ("Serif-Regular", 0xFB03),
-    ("occident", 834+9): ("Serif-Regular", 0xFB04),
-    ("occident", 835+9): ("Serif-Regular", 0x0131),
-    ("occident", 836+9): ("Serif-Regular", 0x03F5),
-    ("occident", 837+9): ("Serif-Regular", 0x03B8),
-    ("occident", 838+9): ("Serif-Regular", 0x03D5),
-    ("occident", 942+12): ("Sans-Regular", 0x00A9),
-    ("occident", 943+12): ("Sans-Regular", 0x00AE),
-    ("occident", 952+12): ("Serif-Regular", 0x264E),
-    ("occident", 1227+18): ("Serif-Regular", 0x044D),
-    ("occident", 1446+24): ("GothicGerman-Regular", 0x0073),
-    ("occident", 1447+24): ("GothicGerman-Regular", 0x00DF),
-    ("occident", 1448+24): ("GothicGerman-Regular", 0xA729),
-    ("symbolic", 88): ("Serif-Italic", 0xFB00),
-    ("symbolic", 89): ("Serif-Italic", 0xFB01),
-    ("symbolic", 90): ("Serif-Italic", 0xFB02),
-    ("symbolic", 91): ("Serif-Italic", 0xFB03),
-    ("symbolic", 92): ("Serif-Italic", 0xFB04),
-    ("cyrillic", 67): ("Serif-Regular", 0x042D),
-    ("mathlow", 77): ("Serif-Regular", 0x2202),
-    ("mathupp", 77): ("Serif-Regular", 0x2202),
-}
-
-no_output = {"Occident-Regular", "Oriental-Regular"}
-
-gsets["hershey-japanese"] = (192, 1, (
-                          (0xFF0E,), (0xFF0C,), (0x30FC,),
-    (0x65E5,), (0x5186,), (0x5E74,), (0x5927,), (0x56FD,),
-    (0x4EBA,), (0x6771,), (0x4E2D,), (0x672C,), (0x4EAC,),
-    (0x51FA,), (0x6642,), (0x4E0A,), (0x8005,), (0x5341,),
-    (0x4E00,), (0x4E8C,), (0x4E09,), (0x56DB,), (0x4E94,),
-    (0x516D,), (0x4E03,), (0x5165,), (0x4E5D,), (0xFF0E,),
-    (0xFF0E,), (0xFF0E,), (0xFF0E,), (0xFF0E,), (0xFF0E,),
-    (0x3042,), (0x3044,), (0x3046,), (0x3048,), (0x304A,),
-    (0x304B,), (0x304D,), (0x304F,), (0x3051,), (0x3053,),
-    (0x3055,), (0x3057,), (0x3059,), (0x305B,), (0x305D,),
-    (0x305F,), (0x3061,), (0x3064,), (0x3066,), (0x3068,),
-    (0x306A,), (0x306B,), (0x306C,), (0x306D,), (0x306E,),
-    (0x306F,), (0x3072,), (0x3075,), (0x3078,), (0x307B,),
-    (0x307E,), (0x307F,), (0x3080,), (0x3081,), (0x3082,),
-    (0x3084,), (0x3044,), (0x3086,), (0x3048,), (0x3088,),
-    (0x3089,), (0x308A,), (0x308B,), (0x308C,), (0x308D,),
-    (0x308F,), (0x3090,), (0x3046,), (0x3091,), (0x3092,),
-    (0x3093,), (0xFF0E,), (0xFF0E,), (0xFF0E,), (0xFF0E,),
-    (0x304C,), (0x304E,), (0x3050,), (0x3052,), (0x3054,),
-    (0x3056,), (0x3058,), (0x305A,), (0x305C,), (0x305E,),
-    (0x3060,), (0x3062,), (0x3065,), (0x3067,), (0x3069,),
-    (0x3070,), (0x3073,), (0x3076,), (0x3079,), (0x307C,),
-    (0x3071,), (0x3074,), (0x3077,), (0x307A,), (0x307D,),
-    (0x30A2,), (0x30A4,), (0x30A6,), (0x30A8,), (0x30AA,),
-    (0x30AB,), (0x30AD,), (0x30AF,), (0x30B1,), (0x30B3,),
-    (0x30B5,), (0x30B7,), (0x30B9,), (0x30BB,), (0x30BD,),
-    (0x30BF,), (0x30C1,), (0x30C4,), (0x30C6,), (0x30C8,),
-    (0x30CA,), (0x30CB,), (0x30CC,), (0x30CD,), (0x30CE,),
-    (0x30CF,), (0x30D2,), (0x30D5,), (0x30D8,), (0x30DB,),
-    (0x30DE,), (0x30DF,), (0x30E0,), (0x30E1,), (0x30E2,),
-    (0x30E4,), (0x30A4,), (0x30E6,), (0x30A8,), (0x30E8,),
-    (0x30E9,), (0x30EA,), (0x30EB,), (0x30EC,), (0x30ED,),
-    (0x30EF,), (0x30F0,), (0x30A6,), (0x30F1,), (0x30F2,),
-    (0x30F3,), (0xFF0E,), (0xFF0E,), (0xFF0E,), (0xFF0E,),
-    (0x30AC,), (0x30AE,), (0x30B0,), (0x30B2,), (0x30B4,),
-    (0x30B6,), (0x30B8,), (0x30BA,), (0x30BC,), (0x30BE,),
-    (0x30C0,), (0x30C2,), (0x30C5,), (0x30C7,), (0x30C9,),
-    (0x30D0,), (0x30D3,), (0x30D6,), (0x30D9,), (0x30DC,),
-    (0x30D1,), (0x30D4,), (0x30D7,), (0x30DA,), (0x30DD,)))
-
-overrides = {
-    "astrology": {0x7F: 0x007E},
-    "cursive": {0x2A: 0x2217, 0x2F: 0x2215, 0x60: 0x02BB, 0x7F: 0x2588},
-    "cyrilc_1": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "cyrillic": {0x22: 0x2033, 0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x45: 0x0418, 0x7F: 0x007E},
-    "gothgbt": {0x23: 0xFE5F, 0x2D: 0x2212, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "gothgrt": {0x23: 0xFE5F, 0x2D: 0x2212, 0x5F: 0x02CD, 0x73: 0x017F, 0x7F: 0x00B0},
-    "gothitt": {0x23: 0xFE5F, 0x2D: 0x2212, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "gothiceng": {0x7F: 0x2588},
-    "gothicger": {0x73: 0x017F, 0x7F: 0x2588},
-    "gothicita": {0x7F: 0x2588},
-    "futural": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x60: 0x02BB, 0x7F: 0x2588},
-    "futuram": {0x7F: 0x2588},
-    "greek": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x60: 0x02BB, 0x7F: 0x2588},
-    "greekc": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "greeks": {0x23: 0xFE5F, 0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "markers": {0x49: 0xFE61, 0x69: 0xFE61},
-    "mathlow": {0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x72: 0x27EE, 0x73: 0x27EF, 0x74: 0x2772, 0x75: 0x2773, 0x7F: 0x007E},
-    "mathupp": {0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x2C: 0x201A, 0x2E: 0x2024, 0x72: 0x27EE, 0x73: 0x27EF, 0x74: 0x2772, 0x75: 0x2773, 0x7B: 0x005D, 0x7D: 0x007B, 0x7F: 0x007E},
-    "meteorology": {0x24: 0x25B4, 0x2A: 0x2217, 0x3F: 0x2753, 0x5F: 0xF05F, 0x7F: 0x007E},
-    "music": {0x7F: 0x2588},
-    "rowmand": {0x23: 0xFE5F, 0x26: 0x1F674, 0x28: 0x2768, 0x29: 0x2769, 0x2D: 0x2212, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "rowmans": {0x2C: 0x201A, 0x2E: 0x2024, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "rowmant": {0x23: 0xFE5F, 0x28: 0x2768, 0x29: 0x2769, 0x2D: 0x2212, 0x4A: 0xF04A, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "scriptc": {0x7F: 0x00B0},
-    "scripts": {0x21: 0x2757, 0x22: 0x2033, 0x24: 0x1F4B2, 0x26: 0x1F675, 0x28: 0x2768, 0x29: 0x2769, 0x2C: 0x201A, 0x2E: 0x2024, 0x30: 0x1D7CE, 0x31: 0x1D7CF, 0x32: 0x1D7D0, 0x33: 0x1D7D1, 0x34: 0x1D7D2, 0x35: 0x1D7D3, 0x36: 0x1D7D4, 0x37: 0x1D7D5, 0x38: 0x1D7D6, 0x39: 0x1D7D7, 0x3A: 0xF03A, 0x3B: 0xF03B, 0x3F: 0x2753, 0x5F: 0x02CD, 0x7F: 0x00B0},
-    "symbolic": {0x34: 0x27EE, 0x35: 0x27EF, 0x4F: 0xFE61, 0x71: 0x2774, 0x72: 0x2775, 0x75: 0x23B7, 0x7F: 0x007E},
-    "timesg": {0x22: 0x2033, 0x28: 0x2768, 0x29: 0x2769, 0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x7F: 0x2588},
-    "timesi": {0x7F: 0x2588},
-    "timesib": {0x7F: 0x2588},
-    "timesb": {0x7F: 0x2588},
-    "timesr": {0x2A: 0x2217, 0x3A: 0xFE55, 0x3B: 0xFE54, 0x7F: 0x2588},
 }
 
 adjustments = {}
@@ -265,12 +153,10 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
     basename = os.path.splitext(os.path.basename(fn))[0]
     is_japanese = basename in ("japanese", "oriental")
     lgc = latin_greek_or_cyrillic.get(basename, "L")
-    fontname, charset = names.get(basename, (basename.title() + "-Regular", None))
-    fontnames.add(fontname)
+    _fontname, charset = names.get(basename, (basename.title() + "-Regular", None))
     with open(fn, "r", encoding="utf-8") as fd:
         b = fd.read().rstrip("\x1A").replace("\n", "")
     offset = 0
-    _fontname = fontname
     _last_glyph_id = -1
     while b:
         fontname = _fontname
@@ -294,6 +180,8 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
                 glyph_id = min(possibilities)[1]
             else:
                 glyph_id = 12345
+        effective_glyph_id = glyph_id if glyph_id != 12345 else (
+                20000 + (binascii.crc32(glyph_data.encode("utf-8")) & 0xFFFF))
         path_data = ["M"]
         additional_scale, additional_margin, additional_elevation = adjustments.get(glyph_id, (1, 0, 0))
         def apply_scale(n, margin_factor, elevation_factor):
@@ -309,16 +197,11 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
                 path_data.append("M")
             else:
                 path_data.extend((str(x), str(y)))
-        if glyph_id != 12345 and (
-                value := input_glyph_id_to_unicode.get((is_japanese, glyph_id), None)):
+        if value := input_glyph_id_to_unicode.get((is_japanese, effective_glyph_id), None):
             ucs = int(value[0].removeprefix("U+"), 16)
             fontnames.add(value[1])
             if ucs > 0x0020:
                 fontname = value[1]
-        elif override := individual_offsets_to_unicode.get((basename, offset), None):
-            fontname, ucs = override
-        elif (offset + 0x20) in overrides.setdefault(basename, {}):
-            ucs = overrides[basename][offset + 0x20]
         elif charset is None:
             ucs = 0xF000 + offset
         elif gsets[charset][0] > 94:
@@ -333,18 +216,16 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
             ucs = 0xF020 + offset
         else:
             ucs = gsets[charset][2][offset - 1][0]
-        effective_glyph_id = glyph_id if glyph_id != 12345 else (
-                20000 + (binascii.crc32(glyph_data.encode("utf-8")) & 0xFFFF))
+        fontnames.add(fontname)
         if not (0xF000 <= ucs <= 0xF8FF):
             glyph_id_to_unicode_and_fontname.setdefault((is_japanese, effective_glyph_id), set()
                     ).add((f"U+{ucs:04X}", fontname))
         if offset == 0 or path_data != ["M"]:
             glyph_id_to_unicode_and_fontname.setdefault((is_japanese, effective_glyph_id), set())
             filenames = [f"obj/glyph_id/{is_japanese:01d}{effective_glyph_id:05d}.svg"]
-            if fontname not in no_output:
-                fn = f"obj/{fontname}_{ucs:04X}_{is_japanese:01d}{effective_glyph_id:05d}.svg"
-                filenames.append(fn)
-                fns.append(fn)
+            fn = f"obj/{fontname}_{ucs:04X}_{is_japanese:01d}{effective_glyph_id:05d}.svg"
+            filenames.append(fn)
+            fns.append(fn)
             for fn in filenames:
                 with open(fn, "w", encoding="utf-8") as fd:
                     print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}'>", file=fd)
@@ -376,8 +257,12 @@ copying_notice = b.split("-" * 78, 2)[1].strip()
 camel_case_break = re.compile(r"([a-z])([A-Z])")
 fonts = {i for i, j in names.values()}
 
+no_output = set()
 for fontname in fontnames:
-    if fontname in no_output or "Mini" in fontname or "Giant" in fontname:
+    if "Mini" in fontname or "Giant" in fontname:
+        continue
+    if not glob.glob(f"obj/{fontname}_*.svg"):
+        no_output.add(fontname)
         continue
     familyname, variant = fontname.rsplit("-", 1)
     for ucs in range(0x20, 0x7F):

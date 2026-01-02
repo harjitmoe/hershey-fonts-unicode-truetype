@@ -349,7 +349,9 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
                 with open(fn, "w", encoding="utf-8") as fd:
                     print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}'>", file=fd)
                     if path_data != ["M"]:
-                        print(f"<path d='{' '.join(path_data)}' stroke='black' fill='none' stroke-width='{2*SCALEFACTOR}' stroke-linejoin='round' stroke-linecap='round'/>", file=fd)
+                        path_string = " ".join(path_data)
+                        for i in path_string.split(" M "):
+                            print(f"<path d='M {i.removeprefix('M').lstrip()}' stroke='black' fill='none' stroke-width='{2*SCALEFACTOR}' stroke-linejoin='round' stroke-linecap='round'/>", file=fd)
                     print("</svg>", file=fd)
         offset += 1
         _last_glyph_id = glyph_id
@@ -364,7 +366,7 @@ for i, j in [*glyph_id_to_unicode_and_fontname.items()]:
 with open("dist/glyph_id_to_unicode.txt", "w", encoding="utf-8") as fd:
     fd.write(pprint.pformat(glyph_id_to_unicode_and_fontname))
 
-subprocess.call(["inkscape", "--actions", "select-all;object-stroke-to-path", "-l", "--export-overwrite", *fns])
+subprocess.call(["inkscape", "--actions", "select-all;object-stroke-to-path;path-union", "-l", "--export-overwrite", *fns])
 
 with open("hershey-fonts/hershey-fonts.notes", "r", encoding="utf-8") as fd:
     b = fd.read()
@@ -411,7 +413,7 @@ for fontname in fontnames:
             b = fd.read()
         x, y, w, h = b.split("viewBox=\"", 1)[1].split("\"", 1)[0].split()
         ucs = fn.split("_", 2)[1]
-        data = b.split("<path", 1)[1].split("d=\"", 1)[1].split("\"", 1)[0] if "<path" in b else ""
+        data = b.split("<path", 1)[1].split(" d=\"", 1)[1].split("\"", 1)[0] if "<path" in b else ""
         glyph = f"<glyph unicode='&#x{ucs};' horiz-adv-x='{w}' d='{data}'/>"
         if glyphs.get(ucs, glyph) != glyph:
             print(fn)

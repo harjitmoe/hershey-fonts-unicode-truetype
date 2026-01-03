@@ -222,7 +222,20 @@ for fontname in fontnames:
 with open("hershey-fonts/hershey-fonts.notes", "r", encoding="utf-8") as fd:
     b = fd.read()
 
-copying_notice = b.split("-" * 78, 2)[1].strip()
+copying_notice = f"""\
+Generated with `hershey_jhf_to_truetype.py` from JHF (James Hurt Format) sources:
+
+Glyph-ID-mapped font data: https://media.unpythonic.net/emergent-files/software/hershey/tex-hershey.zip
+ASCII-mapped font data: https://media.unpythonic.net/emergent-files/software/hershey/hershey.zip
+Python sources: https://github.com/harjitmoe/hershey-jhf-to-truetype/blob/main/hershey_jhf_to_truetype.py
+Unicode mappings: https://github.com/harjitmoe/hershey-jhf-to-truetype/blob/main/glyph_id_to_unicode.txt
+
+---
+
+Terms for the JHF-format Hershey font data:
+
+{b.split("-" * 78, 2)[1].strip().replace(chr(0x09), '  ')}
+"""
 camel_case_break = re.compile(r"([a-z])([A-Z])")
 
 ucs_to_glyph_name = {}

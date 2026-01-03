@@ -12,7 +12,7 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 SCALEFACTOR = 1000 / 42.0
 

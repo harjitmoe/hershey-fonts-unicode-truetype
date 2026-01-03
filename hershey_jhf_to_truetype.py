@@ -225,6 +225,13 @@ with open("hershey-fonts/hershey-fonts.notes", "r", encoding="utf-8") as fd:
 copying_notice = b.split("-" * 78, 2)[1].strip()
 camel_case_break = re.compile(r"([a-z])([A-Z])")
 
+ucs_to_glyph_name = {}
+with open("agl-aglfn/aglfn.txt", "r", encoding="utf-8") as fd:
+    for line in fd:
+        if not line.startswith("#"):
+            ucs, glyph_name = line.split(";", 2)[:2]
+            ucs_to_glyph_name[ucs] = glyph_name
+
 truetype_filenames = []
 for fontname in fontnames:
     familyname, variant = fontname.rsplit("-", 1)
@@ -243,9 +250,11 @@ for fontname in fontnames:
         with open(fn, "r", encoding="utf-8") as fd:
             b = fd.read()
         x, y, w, h = b.split("viewBox=\"", 1)[1].split("\"", 1)[0].split()
-        ucs = fn.split("_", 2)[1]
+        _, ucs, glyph_id = os.path.splitext(fn)[0].split("_", 2)
+        glyph_name = ucs_to_glyph_name.get(ucs, (f"uni{ucs}" if len(ucs) == 4 else f"u{ucs}")
+                ) + "." + ("occident" if glyph_id[0] == "0" else "japanese") + "." + glyph_id[1:]
         data = b.split("<path", 1)[1].split(" d=\"", 1)[1].split("\"", 1)[0] if "<path" in b else ""
-        glyph = f"<glyph unicode='&#x{ucs};' horiz-adv-x='{w}' d='{data}'/>"
+        glyph = f"<glyph glyph-name='{glyph_name}' unicode='&#x{ucs};' horiz-adv-x='{w}' d='{data}'/>"
         if glyphs.get(ucs, glyph) != glyph:
             print(fn)
         glyphs[ucs] = glyph

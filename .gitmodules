@@ -1,3 +1,7 @@
 [submodule "hershey-fonts"]
 	path = hershey-fonts
 	url = https://github.com/kamalmostafa/hershey-fonts.git
+
+[submodule "agl-aglfn"]
+    path = agl-aglfn
+	url = https://github.com/adobe-type-tools/agl-aglfn.git

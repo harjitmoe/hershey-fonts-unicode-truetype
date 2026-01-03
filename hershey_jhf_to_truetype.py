@@ -12,6 +12,8 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
+VERSION = "1.0.1"
+
 SCALEFACTOR = 1000 / 42.0
 
 with open("glyph_id_to_unicode.txt", "r", encoding="utf-8") as fd:
@@ -285,6 +287,7 @@ for fontname in fontnames:
 f = open(argv[1])
 f.fullname = argv[3]
 f.copyright = argv[4]
+f.version = argv[6]
 f.appendSFNTName(0x409, 2, argv[5])
 f.os2_use_typo_metrics = True
 f.layers['Fore'].is_quadratic = True
@@ -296,7 +299,7 @@ f.canonicalContours()
 f.autoHint()
 f.autoInstr()
 f.generate(argv[2])
-""", f"obj/{fontname}.svg", fn, friendlyname, copying_notice, friendlyvariant, repr(SCALEFACTOR)])
+""", f"obj/{fontname}.svg", fn, friendlyname, copying_notice, friendlyvariant, VERSION])
 
 subprocess.call(["fontforge", "-quiet", "-lang=py", "-c", """
 all_fonts = [open(i) for i in argv[2:]]

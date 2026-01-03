@@ -1839,7 +1839,7 @@
  (True, 878): ('U+53F3', 'Serif-Regular'),
  (True, 882): ('U+53F7', 'Serif-Regular'),
  (True, 885): ('U+5438', 'Serif-Regular'),
- (True, 913): ('U+544B', 'Serif-Regular'),
+ (True, 913): ('U+5473', 'Serif-Regular'),
  (True, 923): ('U+54C1', 'Serif-Regular'),
  (True, 931): ('U+54F2', 'Serif-Regular'),
  (True, 973): ('U+55C5', 'Serif-Regular'),

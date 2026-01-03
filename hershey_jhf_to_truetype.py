@@ -12,7 +12,7 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-VERSION = "1.0.2"
+VERSION = "1.1.0"
 
 SCALEFACTOR = 1000 / 42.0
 
@@ -292,6 +292,8 @@ f.appendSFNTName(0x409, 2, argv[5])
 f.os2_use_typo_metrics = True
 f.layers['Fore'].is_quadratic = True
 f.selection.all()
+f.correctDirection()
+f.simplify(0.5, (), 0.2, 10, 10)
 f.addExtrema()
 f.correctDirection()
 f.canonicalStart()

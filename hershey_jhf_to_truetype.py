@@ -12,9 +12,10 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-VERSION = "1.1.0"
+VERSION = "2.0.0"
 
-SCALEFACTOR = 1000 / 42.0
+HERSHEY_UNITS_PER_EM = 38
+SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
 
 with open("glyph_id_to_unicode.txt", "r", encoding="utf-8") as fd:
     input_glyph_id_to_unicode = ast.literal_eval(fd.read())
@@ -248,6 +249,7 @@ with open("agl-aglfn/aglfn.txt", "r", encoding="utf-8") as fd:
             ucs_to_glyph_name[ucs] = glyph_name
 
 truetype_filenames = []
+bdf_filenames = []
 for fontname in fontnames:
     familyname, variant = fontname.rsplit("-", 1)
     familyname = camel_case_break.sub(lambda m: f"{m.group(1)} {m.group(2)}", familyname)
@@ -274,7 +276,7 @@ for fontname in fontnames:
             print(fn)
         glyphs[ucs] = glyph
     with open(f"obj/{fontname}.svg", "w", encoding="utf-8") as fd:
-        print(f"<svg xmlns=\"http://www.w3.org/2000/svg\"><defs><font id=\"Hershey{fontname}\"><font-face units-per-em=\"{round(42*SCALEFACTOR)}\" descent=\"{round(-11*SCALEFACTOR)}\" cap-height=\"{round(24*SCALEFACTOR)}\" x-height=\"{round(11*SCALEFACTOR)}\" font-family=\"Hershey {familyname}\" font-weight=\"{weight}\" font-style=\"{style}\"/>", file=fd)
+        print(f"<svg xmlns=\"http://www.w3.org/2000/svg\"><defs><font id=\"Hershey{fontname}\"><font-face units-per-em=\"{round(HERSHEY_UNITS_PER_EM*SCALEFACTOR)}\" descent=\"{round(-11*SCALEFACTOR)}\" cap-height=\"{round(24*SCALEFACTOR)}\" x-height=\"{round(11*SCALEFACTOR)}\" font-family=\"Hershey {familyname}\" font-weight=\"{weight}\" font-style=\"{style}\"/>", file=fd)
         for ucs, glyph in sorted(glyphs.items()):
             print(glyph, file=fd)
         print("</font></defs></svg>", file=fd)
@@ -295,7 +297,8 @@ f.selection.all()
 f.correctDirection()
 f.simplify(0.5, (), 0.2, 10, 10)
 f.addExtrema()
-f.correctDirection()
+f.round()
+f.simplify(0.5, (), 0.2, 10, 10)
 f.canonicalStart()
 f.canonicalContours()
 f.autoHint()

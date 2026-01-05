@@ -310,6 +310,11 @@ f.autoHint()
 f.autoInstr()
 f.generate(argv[2])
 """, f"obj/{fontname}.svg", fn, friendlyname, copying_notice, friendlyvariant, VERSION])
+    subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", """
+Open($1);
+BitmapsAvail([32, 48, 64, 96]);
+Generate($2, 'bdf');
+""", fn, f"dist/Hershey{fontname}."])
 
 subprocess.call(["fontforge", "-quiet", "-lang=py", "-c", """
 all_fonts = [open(i) for i in argv[2:]]

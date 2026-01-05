@@ -12,7 +12,7 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-VERSION = "2.0.0"
+VERSION = "2.0.1"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
@@ -209,13 +209,18 @@ for fontname in fontnames:
     if "Mini" in fontname or "Giant" in fontname:
         continue
     familyname, variant = fontname.rsplit("-", 1)
+    if "Gothic" in fontname:
+        all_ucs = {os.path.basename(i).split("_", 2)[1]
+                   for i in glob.glob(f"obj/Gothic*-{variant}_*.svg")}
+        for ucs in all_ucs:
+            if not glob.glob(f"obj/{fontname}_{ucs}_*.svg"):
+                if "Gothic" in fontname and (
+                        others := glob.glob(f"obj/Gothic*-{variant}_{ucs}_*.svg")):
+                    other = min(others)
+                    shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
     for ucs in range(0x20, 0x7F):
         if not glob.glob(f"obj/{fontname}_{ucs:04X}_*.svg"):
-            if "Gothic" in fontname and (
-                    others := glob.glob(f"obj/GothicEnglish-{variant}_{ucs:04X}_*.svg")):
-                other = min(others)
-                shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
-            elif others := glob.glob(f"obj/Serif-{variant}_{ucs:04X}_*.svg"):
+            if others := glob.glob(f"obj/Serif-{variant}_{ucs:04X}_*.svg"):
                 other = min(others)
                 shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
             elif others := glob.glob(f"obj/Sans-{variant}_{ucs:04X}_*.svg"):

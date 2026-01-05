@@ -1,6 +1,6 @@
 # TrueType Unicode Hershey fonts
 
-The Hershey fonts, converted to TrueType outlines, mapped to Unicode (including Japanese kanji).
+The Hershey fonts, converted to TrueType outlines, mapped to Unicode (including Japanese kanji in Hershey Serif).
 
 ## Background
 

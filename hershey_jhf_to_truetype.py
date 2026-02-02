@@ -12,7 +12,7 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-VERSION = "2.0.1"
+VERSION = "2.0.2"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
@@ -301,9 +301,9 @@ f.layers['Fore'].is_quadratic = True
 f.selection.all()
 f.correctDirection()
 f.simplify(0.5, (), 0.2, 10, 10)
-f.addExtrema()
 f.round()
 f.simplify(0.5, (), 0.2, 10, 10)
+f.addExtrema()
 f.canonicalStart()
 f.canonicalContours()
 f.autoHint()

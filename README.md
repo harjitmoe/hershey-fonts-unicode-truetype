@@ -9,7 +9,7 @@ The Hershey fonts, converted to TrueType outlines, mapped to Unicode (including 
 
 ## Instructions
 
-Download a `.ttc` from the [GitHub releases page](https://github.com/harjitmoe/hershey-fonts-unicode-truetype/releases).
+Download a `.ttc` from the [GitHub releases page](https://github.com/harjitmoe/hershey-fonts-unicode-truetype/releases/latest).
 
 Alternatively, to run the conversion script yourself, you'd need:
 

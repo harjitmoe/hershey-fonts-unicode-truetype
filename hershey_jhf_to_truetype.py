@@ -12,7 +12,7 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-VERSION = "2.0.2"
+VERSION = "2.0.3"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
@@ -226,6 +226,15 @@ for fontname in fontnames:
             elif others := glob.glob(f"obj/Sans-{variant}_{ucs:04X}_*.svg"):
                 other = min(others)
                 shutil.copy(other, f"obj/{fontname}_{os.path.basename(other).split('_', 1)[1]}")
+
+for ascii_space in glob.glob(f"obj/*_0020_*.svg"):
+    shutil.copy(ascii_space, "_00A0_".join(ascii_space.rsplit("_0020_", 1)))
+
+for narrow_space in glob.glob(f"obj/*_2009_*.svg"):
+    shutil.copy(narrow_space, "_202F_".join(narrow_space.rsplit("_2009_", 1)))
+
+for zero_width_space in glob.glob(f"obj/*_200B_*.svg"):
+    shutil.copy(zero_width_space, "_2060_".join(zero_width_space.rsplit("_200B_", 1)))
 
 with open("hershey-fonts/hershey-fonts.notes", "r", encoding="utf-8") as fd:
     b = fd.read()

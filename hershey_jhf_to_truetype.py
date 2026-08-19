@@ -12,7 +12,7 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-VERSION = "2.0.3"
+VERSION = "2.1.0"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
@@ -145,7 +145,7 @@ for fn in [*glob.glob("complete-hershey-data/*.jhf"), *glob.glob("hershey-fonts/
 
 fontnames = set()
 
-for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete-hershey-data/*.jhf")]:
+for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete-hershey-data/*.jhf"), *glob.glob("others/*.jhf")]:
     basename = os.path.splitext(os.path.basename(fn))[0]
     is_japanese = basename in ("japanese", "oriental")
     lgc = latin_greek_or_cyrillic.get(basename, "L")
@@ -188,8 +188,6 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
                 else:
                     subpath.extend((str(x), str(y)))
             path_data.append(subpath)
-        elif (is_japanese, glyph_id) not in input_glyph_id_to_unicode:
-            continue
         value = input_glyph_id_to_unicode[is_japanese, glyph_id]
         ucs = int(value[0].removeprefix("U+"), 16)
         fontname = value[1]

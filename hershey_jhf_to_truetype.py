@@ -12,7 +12,7 @@ os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
 
-VERSION = "2.1.0"
+VERSION = "2.1.1"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
@@ -287,6 +287,23 @@ for fontname in fontnames:
         if glyphs.get(ucs, glyph) != glyph:
             print(fn)
         glyphs[ucs] = glyph
+        for ucs_space, ucs_same_width_as in (
+                ("2007", "0030"), # https://www.w3.org/TR/css-values-4/#ch
+                ("2008", "002E"), # https://www.unicode.org/Public/17.0.0/ucd/NamesList.txt#line=13131
+                ("3000", "6C34"), # https://www.w3.org/TR/css-values-4/#ic
+                ):
+            if ucs == ucs_same_width_as:
+                space_name = f"uni{ucs_space}.width_of_" + (
+                    "occident" if glyph_id[0] == "0" else "japanese") + "." + glyph_id[1:]
+                glyphs.setdefault(
+                    ucs_space,
+                    f"<glyph glyph-name='{space_name}' unicode='&#x{ucs_space};' horiz-adv-x='{w}'/>")
+    for ucs, spaces_per_em in (
+            ("2000", 2), ("2001", 1), ("2002", 2), ("2003", 1),
+            ("2004", 3), ("2005", 4), ("2006", 6), ("200A", 12)):
+        width = round(HERSHEY_UNITS_PER_EM*SCALEFACTOR/spaces_per_em)
+        glyphs.setdefault(
+                ucs, f"<glyph glyph-name='uni{ucs}' unicode='&#x{ucs};' horiz-adv-x='{width}'/>")
     with open(f"obj/{fontname}.svg", "w", encoding="utf-8") as fd:
         print(f"<svg xmlns=\"http://www.w3.org/2000/svg\"><defs><font id=\"Hershey{fontname}\"><font-face units-per-em=\"{round(HERSHEY_UNITS_PER_EM*SCALEFACTOR)}\" descent=\"{round(-11*SCALEFACTOR)}\" cap-height=\"{round(24*SCALEFACTOR)}\" x-height=\"{round(11*SCALEFACTOR)}\" font-family=\"Hershey {familyname}\" font-weight=\"{weight}\" font-style=\"{style}\"/>", file=fd)
         for ucs, glyph in sorted(glyphs.items()):

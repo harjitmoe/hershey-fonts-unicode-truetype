@@ -11,8 +11,9 @@ import os, glob, itertools, subprocess, re, ast, shutil, binascii
 os.makedirs("obj", exist_ok=True)
 os.makedirs("dist", exist_ok=True)
 fns = []
+fns_not_spaces = []
 
-VERSION = "2.1.1"
+VERSION = "2.1.2"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
@@ -194,14 +195,16 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
         fontnames.add(fontname)
         fn = f"obj/{fontname}_{ucs:04X}_{is_japanese:01d}{glyph_id:05d}.svg"
         fns.append(fn)
+        if path_data:
+            fns_not_spaces.append(fn)
         with open(fn, "w", encoding="utf-8") as fd:
-            print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}'>", file=fd)
+            print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox=\"0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}\">", file=fd)
             for subpath in path_data:
                 print(f"<path d='M {' '.join(subpath)}' stroke='black' fill='none' stroke-width='{2*SCALEFACTOR}' stroke-linejoin='round' stroke-linecap='round'/>", file=fd)
             print("</svg>", file=fd)
         _last_glyph_id = glyph_id
 
-subprocess.call(["inkscape", "--actions", "select-all;object-stroke-to-path;path-union", "-l", "--export-overwrite", *fns])
+subprocess.call(["inkscape", "--actions", "select-all;object-stroke-to-path;path-union", "-l", "--export-overwrite", *fns_not_spaces])
 
 for fontname in fontnames:
     if "Mini" in fontname or "Giant" in fontname:

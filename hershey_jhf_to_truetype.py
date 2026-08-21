@@ -13,7 +13,7 @@ os.makedirs("dist", exist_ok=True)
 fns = []
 fns_not_spaces = []
 
-VERSION = "2.1.2"
+VERSION = "2.1.3"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
@@ -200,7 +200,7 @@ for fn in [*glob.glob("hershey-fonts/hershey-fonts/*.jhf"), *glob.glob("complete
         with open(fn, "w", encoding="utf-8") as fd:
             print(f"<svg xmlns='http://www.w3.org/2000/svg' viewBox=\"0 {-30*SCALEFACTOR} {viewbox_w} {80*SCALEFACTOR}\">", file=fd)
             for subpath in path_data:
-                print(f"<path d='M {' '.join(subpath)}' stroke='black' fill='none' stroke-width='{2*SCALEFACTOR}' stroke-linejoin='round' stroke-linecap='round'/>", file=fd)
+                print(f"<path d='M {' '.join(subpath)}' stroke='black' fill='none' stroke-width='{2.0001*SCALEFACTOR}' stroke-linejoin='round' stroke-linecap='round'/>", file=fd)
             print("</svg>", file=fd)
         _last_glyph_id = glyph_id
 
@@ -324,6 +324,9 @@ f.copyright = argv[4]
 f.version = argv[6]
 f.appendSFNTName(0x409, 2, argv[5])
 f.os2_use_typo_metrics = True
+f.selection.all()
+f.correctDirection()
+f.simplify(0.5, (), 0.2, 10, 10)
 f.layers['Fore'].is_quadratic = True
 f.selection.all()
 f.correctDirection()

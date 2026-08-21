@@ -371,7 +371,7 @@
  (False, 856): ('U+22C6', 'Sans-Regular'),
  (False, 857): ('U+1F6A9', 'Sans-Regular'),
  (False, 860): ('U+2693', 'Sans-Regular'),
- (False, 861): ('U+26F2', 'Sans-Regular'),
+ (False, 861): ('U+1F6E7', 'Sans-Regular'),
  (False, 862): ('U+2692', 'Sans-Regular'),
  (False, 863): ('U+26FA', 'Sans-Regular'),
  (False, 864): ('U+1FAB4', 'Sans-Regular'),

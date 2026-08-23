@@ -341,14 +341,14 @@ f.correctDirection()
 f.autoHint()
 f.autoInstr()
 f.generate(argv[2])
-""", f"obj/{fontname}.svg", fn, friendlyname, copying_notice, friendlyvariant, VERSION])
+""", os.path.abspath(f"obj/{fontname}.svg"), os.path.abspath(fn), friendlyname, copying_notice, friendlyvariant, VERSION])
     subprocess.call(["fontforge", "-quiet", "-lang=ff", "-c", """
 Open($1);
 BitmapsAvail([32, 48, 64, 96]);
 Generate($2, 'bdf');
-""", fn, f"dist/Hershey{fontname}."])
+""", os.path.abspath(fn), os.path.abspath(f"dist/Hershey{fontname}.")])
 
 subprocess.call(["fontforge", "-quiet", "-lang=py", "-c", """
 all_fonts = [open(i) for i in argv[2:]]
 all_fonts[0].generateTtc(argv[1], all_fonts[1:], ttcflags=('merge',), layer='Fore')
-""", "dist/Hershey.ttc", *sorted(truetype_filenames)])
+""", os.path.abspath("dist/Hershey.ttc"), *[os.path.abspath(i) for i in sorted(truetype_filenames)]])

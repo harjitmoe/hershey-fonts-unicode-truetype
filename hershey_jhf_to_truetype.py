@@ -13,7 +13,7 @@ os.makedirs("dist", exist_ok=True)
 fns = []
 fns_not_spaces = []
 
-VERSION = "2.3.0"
+VERSION = "2.3.1"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
@@ -350,5 +350,5 @@ Generate($2, 'bdf');
 
 subprocess.call(["fontforge", "-quiet", "-lang=py", "-c", """
 all_fonts = [open(i) for i in argv[2:]]
-all_fonts[0].generateTtc(argv[1], all_fonts[1:], ttcflags=('merge',), layer='Fore')
+all_fonts[0].generateTtc(argv[1], all_fonts[1:], layer='Fore')
 """, os.path.abspath("dist/Hershey.ttc"), *[os.path.abspath(i) for i in sorted(truetype_filenames)]])

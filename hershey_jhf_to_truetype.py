@@ -13,7 +13,7 @@ os.makedirs("dist", exist_ok=True)
 fns = []
 fns_not_spaces = []
 
-VERSION = "2.2.2"
+VERSION = "2.3.0"
 
 HERSHEY_UNITS_PER_EM = 38
 SCALEFACTOR = 1000 / HERSHEY_UNITS_PER_EM
